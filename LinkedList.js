@@ -24,3 +24,6 @@ class Node {
         this.next = null;
     }
 }
+
+
+export { LinkedList };
