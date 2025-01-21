@@ -43,3 +43,6 @@
 const node = new Node(0, 0);
 node.findPossibleMoves()
 console.log(node.possibleMoves);
+
+
+export { Node };
