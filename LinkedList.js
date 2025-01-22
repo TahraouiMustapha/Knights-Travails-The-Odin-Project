@@ -16,6 +16,14 @@ class LinkedList {
             ptr.next = newNode;   
         }
     }
+
+    doOnEachNode(callback, node = this.head) {
+        if(typeof callback !== 'function') throw new Error('the argument pass in must be a callback!');
+        if(node) {
+            callback(node);
+            this.doOnEachNode(callback, node.next);
+        }
+    }
 }
 
 class Node {
