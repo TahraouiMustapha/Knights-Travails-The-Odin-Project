@@ -40,9 +40,16 @@
 
     }
 
+    equalTo(square) {
+        if(this.x == square.x && this.y == square.y) return true;
+        return false;
+    }
+
+    toArray() {
+        return [this.x, this.y];
+    }
 }
 
-const node = new Square(0, 0);
-node.findPossibleMoves()
-console.log(node.possibleMoves);
 
+
+export { Square };
