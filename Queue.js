@@ -30,6 +30,15 @@ class Queue {
         }
         return null;
     }
+
+    isEmpty() {
+        return this.head === null;
+    }
+
+    freeQueue() {
+        this.head = null;
+        this.queue = null;
+    }
 }
 
 class Node {
@@ -39,4 +48,4 @@ class Node {
     }
 }
 
-
+export { Queue };

@@ -20,8 +20,9 @@ class LinkedList {
     doOnEachNode(callback, node = this.head) {
         if(typeof callback !== 'function') throw new Error('the argument pass in must be a callback!');
         if(node) {
-            callback(node);
-            this.doOnEachNode(callback, node.next);
+            let result = callback(node);
+            if(result) return result;
+            return this.doOnEachNode(callback, node.next);
         }
     }
 }
