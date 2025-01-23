@@ -19,36 +19,31 @@ function knightMoves(coordinates1, coordinates2) {
 
         // loop for explore the child nodes level by level
         let square;
+        let myEndMove = null;
         do {
             square = myQueue.dequeue();
             // this node had visited
             adjacencyMatrice[square.x][square.y] = true; 
             square.findPossibleMoves();
             let myList = square.possibleMoves; // is a linked list for child nodes
-            let myEndMove = myList.doOnEachNode((move) => {
+            myEndMove = myList.doOnEachNode((move) => {
                 if(move.equalTo(endSquare)) {
-                    console.log('we find it');
                     return move;
                 } else {
                     if(!adjacencyMatrice[move.x][move.y]) myQueue.enqueue(move); // if this node had visited do not enter it
                     return null;
                 }
             })
-
-            if(myEndMove) {
-                square = myEndMove;
-                break;
-            }
             
-        } while(!myQueue.isEmpty());
+        } while(!myQueue.isEmpty() && !myEndMove);
 
-        return getPath(square);
+        createPath(myEndMove).displayResult();
 
     }
 }
 
 
-function getPath(square) {
+function createPath(square) {
     let stack = [], path= [];
     while(square != null) {
         stack.push(square.toArray());
@@ -57,12 +52,21 @@ function getPath(square) {
     while(stack.length !== 0) {
         path.push(stack.pop());
     }
-    return path;
+
+    return {
+        path, 
+        movesNum: path.length - 1,
+        displayResult: function() {
+            console.log(`You made it in ${ this.movesNum } moves!  Here's your path:`);
+            console.log(this.path);
+        }
+    };
 }
 
 
 
-console.log(knightMoves([0, 0], [7, 7]))
+knightMoves([0, 0], [7, 7])
+
 
 
 
