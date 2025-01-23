@@ -21,7 +21,6 @@ function knightMoves(coordinates1, coordinates2) {
         let square;
         do {
             square = myQueue.dequeue();
-            console.log(square);
             // this node had visited
             adjacencyMatrice[square.x][square.y] = true; 
             square.findPossibleMoves();
@@ -31,7 +30,7 @@ function knightMoves(coordinates1, coordinates2) {
                     console.log('we find it');
                     return move;
                 } else {
-                    if(!adjacencyMatrice[move.x][move.y]) myQueue.enqueue(move);
+                    if(!adjacencyMatrice[move.x][move.y]) myQueue.enqueue(move); // if this node had visited do not enter it
                     return null;
                 }
             })
@@ -43,15 +42,27 @@ function knightMoves(coordinates1, coordinates2) {
             
         } while(!myQueue.isEmpty());
 
-
+        return getPath(square);
 
     }
 }
 
 
+function getPath(square) {
+    let stack = [], path= [];
+    while(square != null) {
+        stack.push(square.toArray());
+        square = square.previous;
+    }
+    while(stack.length !== 0) {
+        path.push(stack.pop());
+    }
+    return path;
+}
 
 
-console.log(knightMoves([0, 0], [3, 3]))
+
+console.log(knightMoves([0, 0], [7, 7]))
 
 
 
