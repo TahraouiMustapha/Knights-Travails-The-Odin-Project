@@ -9,10 +9,7 @@ function knightMoves(coordinates1, coordinates2, adjacencyMatrice = []) {
     const endSquare = new Square(...coordinates2);
 
     if(startSquare.equalTo(endSquare)) { // if the knight are in the end square
-        return {
-            path: endSquare.toArray(),
-            doesFindIt: true
-        }
+        return createResultObj(endSquare.toArray() ,true);
     } else {
         adjacencyMatrice.length === 0 ? adjacencyMatrice = new Array(8).fill(null).map(() => new Array(8).fill(false)) : null;
          
@@ -28,26 +25,37 @@ function knightMoves(coordinates1, coordinates2, adjacencyMatrice = []) {
             }
             adjacencyMatrice[move.x][move.y] = true; // we have visited this node
         })
+
+        if(result) return createResultObj([startSquare.toArray(), result.toArray()], true)
         
-        if(result) return {
-            path : [startSquare.toArray(), result.toArray()],
-            doesFindIt: true
-        };
-        
-        let myResutlObj = { path: []};
+        let myResutlObj = createResultObj();
         while(!myQueue.isEmpty()) {
             let value = myQueue.dequeue().toArray();
-            console.log(value, endSquare.toArray())
             myResutlObj = knightMoves(value, endSquare.toArray(), adjacencyMatrice);
             if(myResutlObj.doesFindIt) myQueue.freeQueue();
         }
 
-        return {
-            path:[startSquare.toArray()].concat(myResutlObj.path),
-            doesFindIt: false
-        };
+        return createResultObj([startSquare.toArray()].concat(myResutlObj.path), false);
+    }
+}
+
+function createResultObj(path = [] , doesFindIt = false) {
+    return {
+        path, 
+        doesFindIt
+    }
+}
+
+
+function resetTheAdjacencyMatrice(matrix) {
+    for( let i=0 ; i< matrix.length ; i++) {
+        for(let j = 0 ; j < matrix[i].length ; j++) {
+            matrix[i][j] = false;
+        }
     }
 }
 
 console.log(knightMoves([3, 3], [0, 0]).path)
+
+
 
